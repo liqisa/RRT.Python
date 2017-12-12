@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# This program generates a simple rapidly under an existing map,
+# This program generates a simple random tree on an existing map,
 # refering to rrt.py from http://msl.cs.uiuc.edu/~lavalle/code.html.
 
 # The maps come from http://rkala.in/codes.php,
