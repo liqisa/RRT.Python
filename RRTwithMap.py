@@ -10,27 +10,27 @@
 # and planning path from source to goal.
 #
 # Written by LiQi from Shanghai Maritime University.Dec 2017
-# More details in https://github.com/liqisa/RRT.Python
+# More details in
 
-import random, pygame
+import sys, random, pygame
 from math import sqrt,cos,sin,atan2
 import matplotlib.image as mpimg
 
 #constants
-XDIM     = 500
-YDIM     = 500
-WINSIZE  = [XDIM, YDIM]
-EPSILON  = 7.0
-NUMNODES = 6000
-source   = [10,10]
-goal     = [490,490]
+XDIM = 500
+YDIM = 500
+WINSIZE = [XDIM, YDIM]
+EPSILON = 7.0
+NUMNODES = 5000
+source = [10,10]
+goal = [490,490]
 
 # get map shape
-map_raw = mpimg.imread('map2.bmp')
+map_raw = mpimg.imread('map/map2.bmp')
 [width,height] = [len(map_raw[0]),len(map_raw[1])]
 
 
-def dist(p1,p2): # get distance
+def dist(p1,p2):
     return sqrt((p1[0]-p2[0])*(p1[0]-p2[0])+(p1[1]-p2[1])*(p1[1]-p2[1]))
 
 def step_from_to(p1,p2):
@@ -42,31 +42,31 @@ def step_from_to(p1,p2):
 
 
 def main():
-    # initialize and prepare screen
+
     pygame.init()
     screen = pygame.display.set_mode(WINSIZE)
     pygame.display.set_caption('TEST')
-    map = pygame.image.load('map3.bmp').convert()
+    map = pygame.image.load('map/map2.bmp').convert()
     screen.blit(map,[0,0])
     pygame.display.flip()
     blue = [0,0,255]
 
     nodes = []
-    nodes.append((source[0],source[1])) # Start from node source
+    nodes.append((source[0],source[1])) # Start in the center
 
     for i in range(NUMNODES):
-        rand = random.randint(0,width-1), random.randint(0,height-1)
+        rand = random.randint(0,499), random.randint(0,499)
         while map.get_at(rand)[0:3] != (255,255,255):
-            rand = random.randint(0, width-1), random.randint(0,height-1)
+            rand = random.randint(0, 499), random.randint(0, 499)
         nn = nodes[0]
         for p in nodes:
             if dist(p,rand) < dist(nn,rand):
                 nn = p
         newnode = step_from_to(nn,rand)
         while map.get_at((int(round(newnode[0])),int(round(newnode[1]))))[0:3]!=(255,255,255):
-            rand = random.randint(0,width-1), random.randint(0,height-1)
+            rand = random.randint(0, 499), random.randint(0, 499)
             while map.get_at(rand)[0:3] != (255, 255, 255):
-                rand = random.randint(0,width-1), random.randint(0,height-1)
+                rand = random.randint(0, 499), random.randint(0, 499)
             nn = nodes[0]
             for p in nodes:
                 if dist(p, rand) < dist(nn, rand):
@@ -83,4 +83,4 @@ def main():
 # if python says run, then we should run
 if __name__ == '__main__':
   main()
-  input() # hold on the image
+  input("Prease <Esc>")
